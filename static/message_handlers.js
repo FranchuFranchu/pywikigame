@@ -43,10 +43,18 @@ Game.message_handlers = {
             $("#pre-login").hide()
             $("#lobby")    .hide()
             $("#in-game")  .show()
+            $(".match-from-field").text(data[0].fields.source)
+            $(".match-to-field").text(data[0].fields.target).attr("href", "//" + data[0].fields.wikipedia_base + "/wiki/" +data[0].fields.target)
+            $(".player-page").each((i, e) => {
+                console.log("Event")
+                e.innerText = data[0].fields.source
+            } )
+            Game.started = true
         } else {
             $("#pre-login").hide()
             $("#lobby")    .show()
             $("#in-game")  .hide()
+            Game.started = false
         }
         $(".match-name-field").text(data[0].fields.name)
         $(".match-base-field").text(data[0].fields.wikipedia_base)
@@ -64,9 +72,12 @@ Game.message_handlers = {
                     .attr('data-pk', e.pk)
                     .text(e.fields.name))
                 .append($("<td></td>")
-                    .text(e.fields.ready ? "Ready" : "Not ready")
+                    .addClass("player-page")
                 )
-
+        if (!Game.started) {
+            console.log("Set aa")
+             row.find(".player-page").text(Game.started ? "error" : (e.fields.ready ? "Ready" : "Not ready"))
+        }
         $("tr.player-row[data-pk=" + e.pk + "]").remove()
         $("tbody#lobby-player-tbody, tbody#game-player-tbody")    
             .append(row)

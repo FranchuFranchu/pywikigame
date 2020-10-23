@@ -56,3 +56,6 @@ td, th {
     text-align: center;
     width: 100%;
 }
+.match-from-field, .match-to-field {
+    font-size: small;
+}
