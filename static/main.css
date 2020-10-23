@@ -1,0 +1,58 @@
+html, body, main {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+main {
+    margin: 10px;
+}
+
+body {
+    display: grid;
+    grid-template-columns: minmax(150px, 20%) 80%;
+}
+
+#sidebar {
+    padding: 10px;
+    background-color: #c8ccd1;
+    border-right: 1px solid black;
+}
+
+input {
+    width: 90%;
+}
+
+button {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    background-color: white;
+}
+
+#lobby-player-tbody td {
+    font-size: small;
+}
+.match-name {
+    color: blue;
+    text-decoration: underline;
+}
+
+
+.match-name:hover {
+    color: cyan;
+    cursor: pointer;
+}
+.match-name-field {
+    font-size: large;
+}
+
+.match-name-field, .match-base-field {
+    text-align: center;
+    width: 100%;
+}
