@@ -1,3 +1,5 @@
+$().ready(() => {
+console.log("r2")
 Game.socket = new WebSocket("ws://" + window.location.host + "/socket");
 
 
@@ -44,3 +46,4 @@ Game.socket.onclose = function(event) {
 Game.socket.onerror = function(error) {
     console.error(`[error] ${error.message}`);
 };
+})

@@ -26,6 +26,12 @@ class Match(models.Model):
             self.target = get_random_wikipedia_page()
             self.save()
 
+            for i in self.players.all():
+                i.page_log = self.source
+                i.save()
+
+
+
         return start
 
 

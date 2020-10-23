@@ -25,7 +25,7 @@ SECRET_KEY = '&y5zkiscm*yrtx=xw3p20t+z=3x6nouk9!m&#7_n19d!=4w8o^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["pywikigame--franchufranchu.repl.co","pywikigame.franchufranchu.repl.co"]
 
 
 # Application definition

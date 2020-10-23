@@ -39,7 +39,10 @@ Game.message_handlers = {
         $("*[name=player_name]").val(data[0].fields.name)
     },
     this_match: function(data) {
+        Game.match = data[0]
+        console.log("Hi")
         if (data[0].fields.started) {
+            console.log("Hi")
             $("#pre-login").hide()
             $("#lobby")    .hide()
             $("#in-game")  .show()
@@ -64,6 +67,7 @@ Game.message_handlers = {
     },
     add_player: function(data) {
         let e = data[0]
+        console.error(Game.match.fields.source)
         let row = $("<tr></tr>")
             .attr('data-pk', e.pk)
             .addClass("player-row")
@@ -73,11 +77,8 @@ Game.message_handlers = {
                     .text(e.fields.name))
                 .append($("<td></td>")
                     .addClass("player-page")
+                    .text(Game.started ? e.fields.page_log.split(" ")[e.fields.page_log.split(" ").length-1] : (e.fields.ready ? "Ready" : "Not ready"))
                 )
-        if (!Game.started) {
-            console.log("Set aa")
-             row.find(".player-page").text(Game.started ? "error" : (e.fields.ready ? "Ready" : "Not ready"))
-        }
         $("tr.player-row[data-pk=" + e.pk + "]").remove()
         $("tbody#lobby-player-tbody, tbody#game-player-tbody")    
             .append(row)

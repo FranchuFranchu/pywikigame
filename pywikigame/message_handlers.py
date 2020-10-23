@@ -28,7 +28,9 @@ def create_match(request, **kwargs):
 
 def join_match(request, pk, name):
     match = Match.objects.filter(pk=pk).first()
-    player = Player.objects.create(cookie=request.COOKIES["uid"], match=match, name=name)
+    player = Player.objects.filter(cookie=request.COOKIES["uid"]).first()
+    if not player:
+      player = Player.objects.create(cookie=request.COOKIES["uid"], match=match, name=name, page_log="")
     print(uid_requests)
     uid_requests[request.COOKIES["uid"]] = request
     print(uid_requests)
@@ -56,6 +58,7 @@ def log_page(request, page):
     e = Player.objects.filter(cookie=request.COOKIES["uid"]).first()
     e.page_log += " " + page
     print("log", Player.objects.filter(cookie=request.COOKIES["uid"]))
+    to_all_players(e.match, f"add_player {serializers.serialize('json', [e])}")
 
 def match_list(request):
     s = serializers.serialize('json', list(Match.objects.all()))
@@ -74,6 +77,7 @@ def leave_match(request):
 
 def send_player_data(request):
     player = Player.objects.filter(cookie=request.COOKIES["uid"]).first()
+    uid_requests[request.COOKIES["uid"]] = request
     if player:
         match = player.match
         request.websocket.send(f"this_player {serializers.serialize('json', [player])}")

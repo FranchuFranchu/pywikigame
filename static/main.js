@@ -19,6 +19,9 @@ Game.go_to_section = function(section) {
 }
 
 Game.change_page = function() {
+    if (Game.socket) {
+      Game.socket.send_data("log_page", {page: Game.current_page})
+    }
     let main = $("html > body > main")
     $.getJSON("https://en.wikipedia.org/w/api.php?action=parse&page=" + Game.current_page + "&format=json&callback=?&origin=*", (data) => {
         main
