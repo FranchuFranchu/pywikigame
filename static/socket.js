@@ -39,10 +39,13 @@ Game.socket.onclose = function(event) {
         // e.g. server process killed or network down
         // event.code is usually 1006 in this case
         console.error('[close] Connection died');
-        setTimeout(() => {
-            console.log("Attempting reconnect...")
-            connect()
-        }, 1000)
+        console.log("Code: " + event.code)
+        if (event.code == 1006) {
+            setTimeout(() => {
+                console.log("Attempting reconnect...")
+                connect()
+            }, 1000)
+        }
     }
 };
 

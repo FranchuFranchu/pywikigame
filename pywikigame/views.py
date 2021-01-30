@@ -14,7 +14,7 @@ def websocket(request):
         websockets.append(request)
         message_handlers.send_player_data(request)
         for message in request.websocket:
-            if message is None:
+            if message is None: 
                 continue
             print(message.decode('utf-8'))
             code, args = message.decode('utf-8').split(' ', 1)

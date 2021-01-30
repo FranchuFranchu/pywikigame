@@ -67,7 +67,6 @@ Game.message_handlers = {
     },
     add_player: function(data) {
         let e = data[0]
-        console.error(Game.match.fields.source)
         let row = $("<tr></tr>")
             .attr('data-pk', e.pk)
             .addClass("player-row")
@@ -92,4 +91,8 @@ Game.message_handlers = {
         let e = data[0]
         $("tr.match-row[data-pk=" + e.pk + "]").remove()
     },
+    redirect: function(data) {
+        let page = data[0]
+        Game.current_page = page
+    }
 }

@@ -37,7 +37,7 @@ def join_match(request, pk, name):
     request.websocket.send(f"this_player {serializers.serialize('json', [player])}")
     request.websocket.send(f"this_match {serializers.serialize('json', [match])}")
 
-    for old_player in filter(lambda i: i is not player, player.match.players):
+    for old_player in filter(lambda i: i is not player, player.match.players.all()):
         request.websocket.send(f"add_player {serializers.serialize('json', [old_player])}")
 
 def set_name(request, name):
