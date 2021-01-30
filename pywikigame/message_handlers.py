@@ -19,7 +19,6 @@ uid_requests = {}
 def to_all_players(match, msg):
     print(uid_requests)
     for i in match.players.all():
-        print("Send", msg)
         uid_requests[i.cookie].websocket.send(msg)
 
 def create_match(request, **kwargs):
@@ -31,16 +30,18 @@ def join_match(request, pk, name):
     player = Player.objects.filter(cookie=request.COOKIES["uid"]).first()
     if not player:
       player = Player.objects.create(cookie=request.COOKIES["uid"], match=match, name=name, page_log="")
-    print(uid_requests)
+    player.match = match
+    to_all_players(player.match, f"add_player {serializers.serialize('json', [player])}")
     uid_requests[request.COOKIES["uid"]] = request
-    print(uid_requests)
 
     request.websocket.send(f"this_player {serializers.serialize('json', [player])}")
     request.websocket.send(f"this_match {serializers.serialize('json', [match])}")
-    request.websocket.send(f"add_player {serializers.serialize('json', [player])}")
+
+    for old_player in filter(lambda i: i is not player, player.match.players):
+        request.websocket.send(f"add_player {serializers.serialize('json', [old_player])}")
 
 def set_name(request, name):
-    palyer = Player.objects.filter(cookie=request.COOKIES["uid"])
+    player = Player.objects.filter(cookie=request.COOKIES["uid"])
     player.name = name
     player.save()
     

@@ -1,5 +1,4 @@
-$().ready(() => {
-console.log("r2")
+function connect() {
 Game.socket = new WebSocket("ws://" + window.location.host + "/socket");
 
 
@@ -40,10 +39,16 @@ Game.socket.onclose = function(event) {
         // e.g. server process killed or network down
         // event.code is usually 1006 in this case
         console.error('[close] Connection died');
+        setTimeout(() => {
+            console.log("Attempting reconnect...")
+            connect()
+        }, 1000)
     }
 };
 
 Game.socket.onerror = function(error) {
     console.error(`[error] ${error.message}`);
 };
-})
+}
+
+$().ready(connect)
